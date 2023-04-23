@@ -1,0 +1,26 @@
+---
+title: "DS311  EDA"
+author: "Gabrielle Salamanca"
+date: "April 23, 2023"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Load the Dataset
+
+```{r}
+library(readr)
+ames <- read_csv("ames.csv")
+View(ames)
+```
+
+## Explore Data Distributions
+
+## Explore Differences between Subsets
+
+## Explore Correlations
+
+## Engineer and Explore a New Feature
