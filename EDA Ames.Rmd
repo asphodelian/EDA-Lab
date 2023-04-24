@@ -56,10 +56,21 @@ ames.hist <- function(ames, column, title, xlabel, ylabel)
   hist(data, breaks = "FD", main = title, xlab = xlabel, ylab = ylabel, col = "darkmagenta")
   abline(v = mean, col = "goldenrod1")
 }
-
+# call function
 ames.hist(ames, "SalePrice", "Distribution of Sale Prices", "Sale Price", "Number of Houses")
 ```
 
+```{r}
+mean <- mean(ames$SalePrice)
+med <-  median(ames$SalePrice)
+stdev <- sd(ames$SalePrice)
+# print
+cat("Mean: $", mean, "\n")
+cat("Median: $", med, "\n")
+cat("Standard Dev: $", stdev)
+```
+
+We see that the distribution looks like a log normal. It seems most of the houses cluster around 163000 USD. However, the higher-end homes are pulling up the average to 180921.2 USD.
 
 ## Explore Differences between Subsets
 
