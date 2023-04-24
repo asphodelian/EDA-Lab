@@ -48,6 +48,19 @@ str(ames)
 
 ## Explore Data Distributions
 
+```{r}
+ames.hist <- function(ames, column, title, xlabel, ylabel) 
+{
+  data <- ames[[column]]
+  mean <- mean(data)
+  hist(data, breaks = "FD", main = title, xlab = xlabel, ylab = ylabel, col = "darkmagenta")
+  abline(v = mean, col = "goldenrod1")
+}
+
+ames.hist(ames, "SalePrice", "Distribution of Sale Prices", "Sale Price", "Number of Houses")
+```
+
+
 ## Explore Differences between Subsets
 
 ## Explore Correlations
