@@ -105,15 +105,53 @@ ames.hist(ames, "OverallCond",
 mean <- mean(ames$OverallCond)
 med <-  median(ames$OverallCond)
 stdev <- sd(ames$OverallCond)
+```
+
+```{r}
 # print
 cat("Mean:", mean, "\n")
 cat("Median:", med, "\n")
 cat("Standard Dev:", stdev)
 ```
 
+
 Most homes have a condition of 5, but perhaps we should treat this as a categorical variable than numeric. This is because the difference between conditions are quite enormous.
 
 ## Explore Differences between Subsets
+
+```{r}
+below <- ames[ames$OverallCond < 5, ]
+avg <- ames[ames$OverallCond == 5, ]
+above <- ames[ames$OverallCond > 5, ]
+
+# Create custom bins so all are on the same scale
+bins <- seq(min(ames$SalePrice), max(ames$SalePrice), length.out = 21)
+
+# plot setup
+par(mfrow = c(1, 1))
+plot.new()
+legend_x <- "topright"
+legend_title <- "Condition"
+legend_colors <- c("cyan", "gray", "yellow")
+legend_labels <- c("above average", "average", "below average")
+
+# Plot
+hist(above$SalePrice, col = legend_colors[1],
+     breaks = bins, xlim = c(min(ames$SalePrice), max(ames$SalePrice)),
+     ylim = c(0, max(hist(ames$SalePrice, breaks = bins)$counts)),
+     main = "Distributions of Sale Price Grouped by Condition",
+     xlab = "Sale Price",
+     ylab = "Number of Houses", freq = FALSE)
+hist(avg$SalePrice, col = legend_colors[2],
+     breaks = bins, add = TRUE, freq = FALSE)
+hist(below$SalePrice, col = legend_colors[3],
+     breaks = bins, add = TRUE, freq = FALSE)
+
+# Add legend
+legend(legend_x, legend_labels, fill = legend_colors, title = legend_title)
+
+```
+
 
 ## Explore Correlations
 
