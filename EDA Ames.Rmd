@@ -11,12 +11,18 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Load the Dataset
 
+First, let's call the necessary libraries:
+
 ```{r}
 library(readr)
 library(tibble)
+```
 
+Now, let's load the data and check if it loaded correctly:
+
+```{r}
 # data
-ames <- read_csv("data/ames.csv", show_col_types = FALSE)
+ames <- read_csv("data/ames.csv", show_col_types = FALSE, col_types = cols())
 
 # checking
 if (!is.data.frame(ames)) {
@@ -30,9 +36,14 @@ if (nrow(ames) != 1460) {
 if (ncol(ames) != 81) {
   stop("ames does not have the correct number of columns.")
 }
+```
 
+Let's inspect the contents of the dataframe
+
+```{r}
 # inspect
-
+ames
+str(ames)
 ```
 
 ## Explore Data Distributions
