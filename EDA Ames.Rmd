@@ -48,6 +48,8 @@ str(ames)
 
 ## Explore Data Distributions
 
+### 1. Sale Price
+
 ```{r}
 ames.hist <- function(ames, column, title, xlabel, ylabel) 
 {
@@ -71,6 +73,45 @@ cat("Standard Dev: $", stdev)
 ```
 
 We see that the distribution looks like a log normal. It seems most of the houses cluster around 163000 USD. However, the higher-end homes are pulling up the average to 180921.2 USD.
+
+### 2. Total Rooms Above Grade
+
+```{r}
+ames.hist(ames, "TotRmsAbvGrd", 
+          "Distribution of Total Rooms Above Grade", 
+          "Total Rooms (Does Not Include Bathrooms)",
+          "Number of Houses")
+```
+
+```{r}
+mean <- mean(ames$TotRmsAbvGrd)
+med <-  median(ames$TotRmsAbvGrd)
+stdev <- sd(ames$TotRmsAbvGrd)
+# print
+cat("Mean:", mean, "\n")
+cat("Median:", med, "\n")
+cat("Standard Dev:", stdev)
+```
+
+We see in the histogram that the number of rooms in houses is approximately normally distributed. There's an average and median of around 6 rooms, but there are some houses double the mean. But overall, the distribution is less skewed than the sale price one.
+
+### 3. Overall Condition
+
+```{r}
+ames.hist(ames, "OverallCond",
+          "Distribution of Overall Condition of Houses on a 1-10 Scale",
+          "Condition of House", "Number of Houses")
+# vars
+mean <- mean(ames$OverallCond)
+med <-  median(ames$OverallCond)
+stdev <- sd(ames$OverallCond)
+# print
+cat("Mean:", mean, "\n")
+cat("Median:", med, "\n")
+cat("Standard Dev:", stdev)
+```
+
+Most homes have a condition of 5, but perhaps we should treat this as a categorical variable than numeric. This is because the difference between conditions are quite enormous.
 
 ## Explore Differences between Subsets
 
