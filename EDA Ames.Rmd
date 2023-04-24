@@ -13,8 +13,26 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}
 library(readr)
-ames <- read_csv("data/ames.csv")
-View(ames)
+library(tibble)
+
+# data
+ames <- read_csv("data/ames.csv", show_col_types = FALSE)
+
+# checking
+if (!is.data.frame(ames)) {
+  stop("ames is not a dataframe.")
+}
+
+if (nrow(ames) != 1460) {
+  stop("ames does not have the correct number of rows.")
+}
+
+if (ncol(ames) != 81) {
+  stop("ames does not have the correct number of columns.")
+}
+
+# inspect
+
 ```
 
 ## Explore Data Distributions
