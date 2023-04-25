@@ -260,3 +260,19 @@ EnclosedPorch: Enclosed porch area in square feet
 From the plot, it is difficult to actually read the graph, even after excluding the outliers.
 
 ## Engineer and Explore a New Feature
+
+```{r}
+table(ames$YrSold)
+# var
+ames$Age <- ames$YrSold - ames$YearBuilt
+# plot
+ggplot(ames, aes(x = Age, y = SalePrice)) +
+  geom_point(alpha = 0.3, color = "darkgreen") +
+  ggtitle("Home Age vs. Sale Price") +
+  xlab("Age of Home at Time of Sale") +
+  ylab("Sale Price") +
+  theme_bw() +
+  theme(plot.title = element_text(size = 16, face = "bold"))
+
+```
+
