@@ -180,12 +180,28 @@ But what might be surprising is that above-average condition houses do not seem 
 ### 1. Most positively correlated
 
 ```{r}
+# postive
 correl <- cor(ames %>% select_if(is.numeric))[,"SalePrice"] %>% sort
 maxCorrVal <- tail(correl, 2)[1]
 maxCorCol <- names(tail(correl, 2))[1]
 
+# print
 cat("Most Positively Correlated Column: ", maxCorCol, "\n")
 cat("Maximum Correlation Value: ", maxCorrVal, "\n")
+```
+
+2. Most negatively correlated
+
+```{r}
+numeric_ames <- ames %>%
+  select_if(is.numeric)
+
+correl <- cor(numeric_ames)[,"SalePrice"] %>% sort
+minCorrVal<- head(correl, 2)[2]
+minCorCol <- names(head(correl, 2))[2]
+
+cat("Most Negatively Correlated Column: ", minCorCol, "\n")
+cat("Minimum Correlation Value: ", minCorrVal, "\n")
 ```
 
 
