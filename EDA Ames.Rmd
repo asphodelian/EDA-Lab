@@ -18,6 +18,9 @@ library(readr)
 library(tibble)
 library(caret)
 library(dplyr)
+library(ggplot2)
+library(reshape2)
+library(gridExtra)
 ```
 
 Now, let's load the data and check if it loaded correctly:
@@ -190,10 +193,10 @@ cat("Most Positively Correlated Column: ", maxCorCol, "\n")
 cat("Maximum Correlation Value: ", maxCorrVal, "\n")
 ```
 
-2. Most negatively correlated
+### 2. Most negatively correlated
 
 ```{r}
-numeric_ames <- ames %>%
+numAmes <- ames %>%
   select_if(is.numeric)
 
 correl <- cor(numeric_ames)[,"SalePrice"] %>% sort
@@ -204,5 +207,56 @@ cat("Most Negatively Correlated Column: ", minCorCol, "\n")
 cat("Minimum Correlation Value: ", minCorrVal, "\n")
 ```
 
+### 3. Boxplot
+
+```{r}
+ggplot(numAmes, 
+       aes(x = factor(numAmes[[maxCorCol]]), 
+           y = SalePrice)) + 
+  geom_boxplot(fill = "#66c2a5", color = "black", alpha = 0.8) +
+  ggtitle("Overall Quality vs. Sale Price") +
+  xlab("Overall Quality") + ylab("Sale Price") +
+  theme_bw() + theme(plot.title = element_text(size = 16, face = "bold"))
+# porch
+ggplot(numAmes, 
+       aes(x = factor(numAmes[[minCorCol]]), 
+           y = SalePrice)) + 
+  geom_boxplot(fill = "#fc8d62", color = "black", alpha = 0.8) + 
+  ggtitle("Enclosed porch area in square feet vs. Sale Price") +
+  xlab("Enclosed porch area in square feet") + ylab("Sale Price") +
+  theme_bw() + theme(plot.title = element_text(size = 16, face = "bold"))
+
+ggplot(numAmes, aes(x = factor(numAmes[[minCorCol]]), y = SalePrice)) + 
+  geom_boxplot(fill = "#fc8d62", color = "black", alpha = 0.8, outlier.shape = NA) + 
+  ggtitle("Enclosed porch area in square feet vs. Sale Price") +
+  xlab("Enclosed porch area in square feet") + ylab("Sale Price") +
+  theme_bw() + theme(plot.title = element_text(size = 16, face = "bold")) +
+  scale_y_continuous(limits = quantile(numAmes$SalePrice, c(0.05, 0.95)))
+```
+
+The column with the highest correlation is overall quality. According to the data description:
+
+OverallQual: Rates the overall material and finish of the house
+
+       10	Very Excellent
+       9	Excellent
+       8	Very Good
+       7	Good
+       6	Above Average
+       5	Average
+       4	Below Average
+       3	Fair
+       2	Poor
+       1	Very Poor
+       
+It is somewhat difficult to understand how this is different from OverallCond, which has similar values.
+
+There is a clear positive relationship between overall quality and sale price, although it looks like potentially an exponential relationship rather than a linear one. For example, the minimum "non-outlier" (Q1 - 1.5*IQR) home with quality 10 (Very Excellent) sells for about the same price as the median home with quality 6 (Above Average).
+
+The column with the most negative correlation is not the number of kitchens above ground, but enclosed porch. I'm not sure why this is a different answer from the solution, but I will still keep receiving that output. According to the data description:
+
+EnclosedPorch: Enclosed porch area in square feet
+
+From the plot, it is difficult to actually read the graph, even after excluding the outliers.
 
 ## Engineer and Explore a New Feature
