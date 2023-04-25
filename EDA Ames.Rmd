@@ -124,32 +124,46 @@ below <- ames[ames$OverallCond < 5, ]
 avg <- ames[ames$OverallCond == 5, ]
 above <- ames[ames$OverallCond > 5, ]
 
-# Create custom bins so all are on the same scale
+# plot setup
+par(mfrow = c(1,1))
+plot.new()
+plot.window(xlim = c(min(ames$SalePrice), max(ames$SalePrice)), ylim = c(0, max(hist(ames$SalePrice, breaks = bins)$counts)))
+# bins
 bins <- seq(min(ames$SalePrice), max(ames$SalePrice), length.out = 21)
 
-# plot setup
-par(mfrow = c(1, 1))
-plot.new()
-legend_x <- "topright"
-legend_title <- "Condition"
-legend_colors <- c("cyan", "gray", "yellow")
-legend_labels <- c("above average", "average", "below average")
+# plot
+hist(
+  above$SalePrice,
+  breaks = bins,
+  col = rgb(0,1,1,alpha=0.5),
+  xlab = "Sale Price",
+  ylab = "Number of Houses",
+  freq = FALSE,
+  main = "Distributions of Sale Price Grouped by Condition"
+)
+hist(
+  avg$SalePrice,
+  breaks = bins,
+  col = rgb(0.5,0.5,0.5,alpha=0.3),
+  add = TRUE,
+  freq = FALSE
+)
+hist(
+  below$SalePrice,
+  breaks = bins,
+  col = rgb(1,1,0,alpha=0.5),
+  add = TRUE,
+  freq = FALSE
+)
 
-# Plot
-hist(above$SalePrice, col = legend_colors[1],
-     breaks = bins, xlim = c(min(ames$SalePrice), max(ames$SalePrice)),
-     ylim = c(0, max(hist(ames$SalePrice, breaks = bins)$counts)),
-     main = "Distributions of Sale Price Grouped by Condition",
-     xlab = "Sale Price",
-     ylab = "Number of Houses", freq = FALSE)
-hist(avg$SalePrice, col = legend_colors[2],
-     breaks = bins, add = TRUE, freq = FALSE)
-hist(below$SalePrice, col = legend_colors[3],
-     breaks = bins, add = TRUE, freq = FALSE)
-
-# Add legend
-legend(legend_x, legend_labels, fill = legend_colors, title = legend_title)
-
+# legend
+legend(
+  "topright",
+  legend = c("above average condition", "average condition", "below average condition"),
+  fill = c(rgb(0, 1, 1,alpha = 0.5), 
+           rgb(0.5, 0.5, 0.5, alpha = 0.3), 
+           rgb(1, 1, 0, alpha = 0.5))
+)
 ```
 
 
